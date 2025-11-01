@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wheeze Detection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>🎧 Wheeze Detection System</h1>
+    <p>Upload a breathing sound file (.wav) to detect wheeze vs normal.</p>
+
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" name="audio" accept="audio/*" required />
+      <button type="submit">Predict</button>
+    </form>
+
+    <div id="result"></div>
+    <div id="alert" class="alert"></div>
+    <div id="graphContainer">
+      <div class="graph-title">🔊 Audio Waveform Analysis</div>
+      <canvas id="audioGraph"></canvas>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    let chart;
+    
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const fileInput = document.querySelector('input[type="file"]');
+      
+      if (!fileInput.files[0]) {
+        showAlert('Please select an audio file first!', 'warning');
+        return;
+      }
+
+      const res = await fetch('/predict', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+
+      displayResult(data.result || data.error, data.prediction, data.confidence);
+      if (data.waveform) {
+        displayGraph(data.waveform, data.prediction);
+      }
+    });
+    
+    function displayResult(result, prediction, confidence) {
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerText = result;
+      
+      if (prediction === 1) {
+        resultDiv.className = 'wheeze';
+        showAlert('⚠️ MEDICAL ALERT: Wheeze detected! Please consult a doctor immediately for proper diagnosis and treatment.', 'danger');
+      } else {
+        resultDiv.className = 'normal';
+        showAlert('✅ Good news! Your breathing sounds normal. Continue monitoring your respiratory health.', 'warning');
+      }
+    }
+    
+    function showAlert(message, type) {
+      const alertDiv = document.getElementById('alert');
+      alertDiv.className = `alert alert-${type} show`;
+      alertDiv.innerHTML = message;
+    }
+    
+    function displayGraph(waveform, prediction) {
+      const ctx = document.getElementById('audioGraph').getContext('2d');
+      const graphContainer = document.getElementById('graphContainer');
+      
+      graphContainer.classList.add('show');
+      
+      if (chart) chart.destroy();
+      
+      const normalPattern = generateNormalPattern(waveform.length);
+      
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: waveform.map((_, i) => i),
+          datasets: [{
+            label: 'Your Audio',
+            data: waveform,
+            borderColor: prediction === 1 ? '#ef4444' : '#22c55e',
+            backgroundColor: prediction === 1 ? 'rgba(239, 68, 68, 0.1)' : 'rgba(34, 197, 94, 0.1)',
+            borderWidth: 2,
+            fill: true
+          }, {
+            label: 'Normal Breathing Pattern',
+            data: normalPattern,
+            borderColor: '#64748b',
+            backgroundColor: 'rgba(100, 116, 139, 0.05)',
+            borderWidth: 1,
+            borderDash: [5, 5],
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Amplitude'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Time (samples)'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top'
+            },
+            title: {
+              display: true,
+              text: prediction === 1 ? '🚨 Wheeze Pattern Detected' : '✅ Normal Breathing Pattern'
+            }
+          }
+        }
+      });
+    }
+    
+    function generateNormalPattern(length) {
+      return Array.from({length}, (_, i) => {
+        return Math.sin(i * 0.1) * 0.3 + Math.sin(i * 0.05) * 0.2;
+      });
+    }
+  </script>
+</body>
+</html>
