@@ -23,7 +23,27 @@ def extract_features(file_path):
 
 @app.route('/')
 def home():
+    return render_template('login.html')
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('home.html')
+
+@app.route('/detect')
+def detect():
     return render_template('index.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():

@@ -1,31 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wheeze Detection</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Detection - Wheeze Detection System{% endblock %}
+
+{% block content %}
+<section class="detection-page">
   <div class="container">
-    <h1>🎧 Wheeze Detection System</h1>
-    <p>Upload a breathing sound file (.wav) to detect wheeze vs normal.</p>
+    <div class="detection-header">
+      <h1>🎧 Wheeze Detection Analysis</h1>
+      <p>Upload a breathing sound file (.wav) to detect wheeze vs normal breathing patterns.</p>
+    </div>
 
-    <form id="uploadForm" enctype="multipart/form-data">
-      <input type="file" name="audio" accept="audio/*" required />
-      <button type="submit">Predict</button>
-    </form>
+    <div class="detection-container">
+      <form id="uploadForm" enctype="multipart/form-data">
+        <div class="upload-section">
+          <input type="file" name="audio" accept="audio/*" required />
+          <button type="submit">Analyze Audio</button>
+        </div>
+      </form>
 
-    <div id="result"></div>
-    <div id="alert" class="alert"></div>
-    <div id="graphContainer">
-      <div class="graph-title">🔊 Audio Waveform Analysis</div>
-      <canvas id="audioGraph"></canvas>
+      <div id="result"></div>
+      <div id="alert" class="alert"></div>
+      <div id="graphContainer">
+        <div class="graph-title">🔊 Audio Waveform Analysis</div>
+        <canvas id="audioGraph"></canvas>
+      </div>
     </div>
   </div>
+</section>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
     let chart;
     
     document.getElementById('uploadForm').addEventListener('submit', async (e) => {
@@ -136,6 +140,5 @@
         return Math.sin(i * 0.1) * 0.3 + Math.sin(i * 0.05) * 0.2;
       });
     }
-  </script>
-</body>
-</html>
+</script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-content">
+    <h1>🫁 Advanced Wheeze Detection System</h1>
+    <p class="hero-subtitle">AI-powered respiratory health monitoring for early detection and prevention</p>
+    <div class="hero-buttons">
+      <a href="{{ url_for('detect') }}" class="btn btn-primary">Start Detection</a>
+      <a href="{{ url_for('about') }}" class="btn btn-secondary">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <h2>Why Choose MediBreath?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>AI-Powered Analysis</h3>
+        <p>Advanced machine learning algorithms trained on thousands of respiratory samples</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Results</h3>
+        <p>Get immediate analysis of your breathing patterns with detailed visualizations</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏥</div>
+        <h3>Medical Grade</h3>
+        <p>Hospital-quality analysis with professional medical recommendations</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Visual Analytics</h3>
+        <p>Interactive charts comparing your audio with normal breathing patterns</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">95%</div>
+        <div class="stat-label">Accuracy Rate</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">10K+</div>
+        <div class="stat-label">Tests Completed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Available</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">5sec</div>
+        <div class="stat-label">Analysis Time</div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Wheeze Detection System{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+  <div class="container">
+    <div class="auth-container">
+      <div class="auth-header">
+        <h1>📝 Join MediBreath</h1>
+        <p>Create your account for personalized respiratory monitoring</p>
+      </div>
+      
+      <form id="registerForm" class="auth-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone">
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="medicalHistory">Medical History (Optional)</label>
+          <select id="medicalHistory" name="medicalHistory">
+            <option value="">Select if applicable</option>
+            <option value="asthma">Asthma</option>
+            <option value="copd">COPD</option>
+            <option value="allergies">Allergies</option>
+            <option value="other">Other respiratory condition</option>
+            <option value="none">No known conditions</option>
+          </select>
+        </div>
+        
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" name="terms" required> 
+            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+          </label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+        
+        <div class="auth-switch">
+          <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  
+  if (password !== confirmPassword) {
+    alert('Passwords do not match!');
+    return;
+  }
+  
+  alert('Registration successful! Redirecting to dashboard...');
+  window.location.href = '/dashboard';
+});
+</script>
+{% endblock %}

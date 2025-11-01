@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Wheeze Detection System{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="{{ url_for('home') }}">🏥 MediBreath</a>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a></li>
+        <li><a href="{{ url_for('detect') }}" class="nav-link">Detection</a></li>
+        <li><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+        <li><a href="{{ url_for('home') }}" class="nav-link">Logout</a></li>
+      </ul>
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>🏥 MediBreath</h3>
+        <p>Advanced AI-powered respiratory health monitoring system for early wheeze detection.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+          <li><a href="{{ url_for('detect') }}">Detection</a></li>
+          <li><a href="{{ url_for('about') }}">About & Contact</a></li>
+          <li><a href="{{ url_for('register') }}">Register</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p><i class="fas fa-envelope"></i> info@medibreath.com</p>
+        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 MediBreath. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
